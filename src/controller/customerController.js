@@ -76,8 +76,7 @@ const deleteCustomer = async (req, res) => {
 
         if (!customerDetials) return res.status(404).send({ status: false, message: "customer does not exits." })
 
-        if (!customerDetials.status == "INACTIVE") return res.status(200).send({ status: true, message: 'customer already deleted.' })
-        //let updatedReview = await reviewModel.findOneAndUpdate({ _id: reviewId }, { $set: { reviewedBy, rating, review } }, { upsert: true, new: true });
+        if (customerDetials.status == "INACTIVE") return res.status(200).send({ status: true, message: 'customer already deleted.' })
 
         await customerModel.updateOne({ customerID: customerId }, { status:"INACTIVE" })
 
