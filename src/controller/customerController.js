@@ -3,8 +3,8 @@ const short = require('short-uuid');
 const cardModel = require('../models/cardModel');
 const moment = require("moment")
 
-let isValidStatus = function (title) {
-    return ["ACTIVE", "INACTIVE"].indexOf(title) !== -1
+let isValidStatus = function (status) {
+    return ["ACTIVE", "INACTIVE"].indexOf(status) !== -1
 }
 const createCustomer = async (req, res) => {
 
@@ -71,16 +71,17 @@ const getAllCustomerList = async (req, res) => {
 const deleteCustomer = async (req, res) => {
 
     try {
-        let customerId = req.body
+        let customerId = req.body.customerID
         let customerDetials = await customerModel.findOne({ customerId })
 
         if (!customerDetials) return res.status(404).send({ status: false, message: "customer does not exits." })
 
         if (!customerDetials.status == "INACTIVE") return res.status(200).send({ status: true, message: 'customer already deleted.' })
+        //let updatedReview = await reviewModel.findOneAndUpdate({ _id: reviewId }, { $set: { reviewedBy, rating, review } }, { upsert: true, new: true });
 
-        await customerModel.updateOne({ customerId, status: "INACTIVE" })
+        await customerModel.updateOne({ customerID: customerId }, { status:"INACTIVE" })
 
-        await cardModel.updateOne({ customerId, status: "INACTIVE" })
+        await cardModel.updateOne({ customerID: customerId }, { status:"INACTIVE" })
 
         return res.status(200).send({ status: true, message: "customer detials deleted Succussfully." })
 

@@ -1,8 +1,8 @@
 const cardModel = require('../models/cardModel');
 const customerModel = require('../models/customerModel');
 
-let isValidCardType = function (title) {
-    return ["REGULAR", "SPECIAL"].indexOf(title) !== -1
+let isValidCardType = function (cardType) {
+    return ["REGULAR", "SPECIAL"].indexOf(cardType) !== -1
 }
 
 const createCard = async (req, res) => {
